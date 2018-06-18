@@ -8,7 +8,7 @@
 	<a href="index.php">Home</a>
 	<br/><br/>
 
-	<form action="add.php" method="post" name="form1">
+	<form action="query-add-estampa.php" method="post" name="form1">
 		<table width="25%" border="0">
 			<tr> 
 				<td>No.</td>
@@ -27,14 +27,14 @@
                <td>
                 <?php
                     include_once("config.php");
-                    $sql = "SELECT color FROM clase";
+                    $sql = "SELECT * FROM clase";
                     $query = mysqli_query($mysqli, $sql);
 
-                    echo '<select name="clase" style="width: 200px">';
+                    echo '<select name="id_clase" style="width: 200px">';
                     while ($row = mysqli_fetch_array($query)) {
-                        echo '<option>'.$row['color'].'</option>';
+                        echo '<option value='.$row['id_clase'].'>'.$row['color'].'</option>';
                     }
-                    echo '<option value="variable" selected>variable</option>';
+                    echo '<option value="99999" selected>variable</option>';
                     echo '</select>';
                 ?>
                 
@@ -45,12 +45,12 @@
                <td>Album</td>
                <td>
                 <?php
-                    $sql = "SELECT nombre FROM album";
+                    $sql = "SELECT * FROM album";
                     $query = mysqli_query($mysqli, $sql);
 
-                    echo '<select name="clase" style="width: 200px">';
+                    echo '<select name="id_album" style="width: 200px">';
                     while ($row = mysqli_fetch_array($query)) {
-                        echo '<option>'.$row['nombre'].'</option>';
+                        echo '<option value='.$row['id_album'].'>'.$row['nombre'].'</option>';
                     }
                     echo '</select>';
                 ?>
