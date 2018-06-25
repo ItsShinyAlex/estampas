@@ -1,3 +1,7 @@
+<?php
+    // Start the session
+    session_start();
+?>
 <html>
 <head>
 	<title>Add Data</title>
@@ -5,6 +9,9 @@
 
 <body>
     
+    <?php
+        include_once("config.php");
+    ?>
 	<a href="index.php">Home</a>
 	<br/><br/>
 
@@ -16,35 +23,44 @@
 			</tr>
 			<tr> 
 				<td>Precio</td>
-				<td><input type="number" step=".1"  name="precio"></td>
-			</tr>
+			<?php
+                $id_clase=$_POST['id_clase'];
+                $_SESSION["id_clase"] = $id_clase;
+                if ($id_clase!=99999){
+            ?>    
+			
+                   <td>
+                    <?php
+                        //print_r($_POST);
+                        
+                            $sql = 'SELECT * FROM clase where id_clase='.$id_clase;
+                            $query = mysqli_query($mysqli, $sql);
+
+                            echo '<select name="precio" style="width: 200px">';
+                                while ($row = mysqli_fetch_array($query)) {
+                                    echo '<option value='.$row['valor'].' selected>'.$row['valor'].'</option>';
+                                }
+                            echo '</select>';
+                        
+                    ?>
+                    </td>
+			
+            <?php
+			    }
+                else{
+                    echo '<td><input type="number" step=".1" name="precio"></td>';
+                }
+            ?>
+            </tr>
 			<tr> 
 				<td>Inventario</td>
 				<td><input type="number" step="1" name="inventario"></td>
 			</tr>
 			<tr>
-               <td>Clase</td>
-               <td>
-                <?php
-                    include_once("config.php");
-                    $sql = "SELECT * FROM clase";
-                    $query = mysqli_query($mysqli, $sql);
-
-                    echo '<select name="id_clase" style="width: 200px">';
-                    while ($row = mysqli_fetch_array($query)) {
-                        echo '<option value='.$row['id_clase'].'>'.$row['color'].'</option>';
-                    }
-                    echo '<option value="99999" selected>variable</option>';
-                    echo '</select>';
-                ?>
-                
-                </td>
-    
-			</tr>
-			<tr>
                <td>Album</td>
                <td>
                 <?php
+                    
                     $sql = "SELECT * FROM album";
                     $query = mysqli_query($mysqli, $sql);
 

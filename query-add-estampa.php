@@ -1,6 +1,10 @@
+<?php
+    // Start the session
+    session_start();
+?>
 <html>
 <head>
-	<title>Add Data</title>
+	<title>Agregar estampa</title>
 </head>
 
 <body>
@@ -13,10 +17,16 @@ if(isset($_POST['Submit'])) {
 	$precio = mysqli_real_escape_string($mysqli, $_POST['precio']);
 	$inventario = mysqli_real_escape_string($mysqli, $_POST['inventario']);
 	//$sold = mysqli_real_escape_string($mysqli, $_POST['sold']);
-    $id_clase = mysqli_real_escape_string($mysqli, $_POST['id_clase']);
-    id_album = mysqli_real_escape_string($mysqli, $_POST['id_album']);
+    $id_clase = $_SESSION["id_clase"];
+    $id_album = mysqli_real_escape_string($mysqli, $_POST['id_album']);
 	// checking empty fields
     
+    print $id_clase;
+    echo '<br>';
+    print $no;
+    echo '<br>';
+    print $precio;
+    echo '<br>';
    
     
 	if(empty($no) || empty($precio) || empty($inventario)){
@@ -29,22 +39,29 @@ if(isset($_POST['Submit'])) {
         $result = mysqli_query($mysqli, "SELECT no, id_album FROM estampa WHERE no='$no' and id_album='$id_album'");
         $res = mysqli_fetch_array($result);
         if($no==$res['no'] and $id_album==$res['id_album']){
-            echo "<font color='red'>Ya exitse una tarjeta con ese número en ese album</font><br/>";
+            echo "<font color='red'>Ya exitse una estampa con ese número en ese album</font><br/>";
             echo "<br/><a href='javascript:self.history.back();'>Volver</a>";
         }
         else{
            // if all the fields are filled (not empty) 
             
             //insert data to database	
-            $result = mysqli_query($mysqli, "INSERT INTO clase(id_estampa, id_clase, id_album, no, precio, inventario, sold) VALUES(0,'$id_clase','$id_album','$no','$precio','$inventario', 0)");
+            $result = mysqli_query($mysqli, "INSERT INTO estampa(id_estampa, id_clase, id_album, no, precio, inventario, sold) VALUES(0,'$id_clase','$id_album','$no','$precio','$inventario', 0)");
             
             //display success message
-            echo "<font color='green'>Clase agregada correctamente.";
+            echo "<font color='green'>Estampa agregada correctamente.";
             echo "<br/><a href='index.php'>Regresar a Inicio</a>"; 
         }
 		
 	}
 }
+    
+
+// remove all session variables
+session_unset(); 
+// destroy the session 
+session_destroy(); 
+
 ?>
 </body>
 </html>
